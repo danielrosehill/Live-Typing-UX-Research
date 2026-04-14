@@ -38,6 +38,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 | [Inference cadence and sentence entry for pause-for-thought dictators](questions/inference-cadence-and-sentence-entry.md) | [Inference cadence and sentence entry — finding the UX sweet spot for pause-for-thought dictators](ideas/inference-cadence-and-sentence-entry.md) |
 | [Why Whisper isn't ideal for live dictation, and how live STT models rewrite on the fly](questions/whisper-vs-streaming-asr-for-dictation.md) | [Why Whisper isn't built for live dictation, and how streaming STT models rewrite on the fly](ideas/whisper-vs-streaming-asr-for-dictation.md) |
 | [When Handy prints the transcript over 10–20 seconds, is that real-time inference or an artificial frontend delay?](questions/handy-inference-vs-typing-delay.md) | [Handy's 10–20 second print delay is almost entirely keystroke-injection pacing, not inference](ideas/handy-inference-vs-typing-delay.md) |
+| [Cursor-level dictation vs record-then-paste STT — who loves which, and where](questions/cursor-dictation-vs-clipboard-stt-adoption.md) | [Cursor-level dictation vs record-then-paste STT — adoption patterns across industries, users, and operating systems](ideas/cursor-dictation-vs-clipboard-stt-adoption.md) |
 
 ---
 
