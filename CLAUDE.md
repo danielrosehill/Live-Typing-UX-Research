@@ -43,6 +43,7 @@ Each topic is recorded as **two cross-referenced files**: the user's question (i
 - `/revise` — update the response in `ideas/<slug>.md` with new information (snapshot the previous version first).
 - `/followup` — append a dated follow-up section to `ideas/<slug>.md` without rewriting it.
 - `/publish` — refresh the top-level `README.md` index table and report the public URL.
+- `/glossary` — rebuild the top-level `glossary.md` by extracting and consolidating terminology defined across `ideas/`.
 
 ## Behavioural notes
 

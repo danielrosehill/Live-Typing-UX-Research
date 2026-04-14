@@ -19,6 +19,10 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 
 ---
 
+## Reference
+
+- [Glossary](glossary.md) — consolidated terminology used across all topics.
+
 ## Topics
 
 | Question | Ideas |
@@ -56,6 +60,7 @@ That replaces placeholders, seeds `context/`, and asks for a one-line descriptio
 | `/revise` | Update an existing guide with new findings. |
 | `/followup` | Append a Q&A note to an existing guide without rewriting it. |
 | `/publish` | Rebuild the top-level guide index and report the public repo URL. |
+| `/glossary` | Rebuild `glossary.md` from terminology defined across `ideas/`. |
 
 ## Layout
 
