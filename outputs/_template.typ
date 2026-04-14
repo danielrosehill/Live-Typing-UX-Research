@@ -24,6 +24,7 @@
   scope: "",
   generated: datetime.today().display("[year]-[month]-[day]"),
   slugs: (),
+  contents: false,
   body,
 ) = {
   set document(title: if type(title) == str { title } else { "Consolidated topics" })
@@ -64,9 +65,10 @@
   ]
   pagebreak()
 
-  // Contents
-  outline(title: [Contents], depth: 2, indent: auto)
-  pagebreak()
+  if contents {
+    outline(title: [Contents], depth: 2, indent: auto)
+    pagebreak()
+  }
 
   body
 }

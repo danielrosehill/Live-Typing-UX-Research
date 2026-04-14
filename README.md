@@ -25,25 +25,27 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 
 ## Topics
 
-| Question | Ideas |
+### Batch 1 (14/04/26)
+
+| Prompt | Output |
 |---|---|
-| [Does end-of-utterance batch inference give better accuracy than chunked streaming?](questions/batch-vs-chunked-inference-accuracy.md) | [End-of-utterance batch inference is genuinely more accurate than chunked streaming — it's not just frontend engineering](ideas/batch-vs-chunked-inference-accuracy.md) |
+| [Cursor-level dictation vs record-then-paste STT — who loves which, and where](questions/cursor-dictation-vs-clipboard-stt-adoption.md) | [Adoption patterns across industries, users, and operating systems](ideas/cursor-dictation-vs-clipboard-stt-adoption.md) |
+| [Custom vocabulary in transcription tools — how is it actually implemented?](questions/custom-vocabulary-in-stt.md) | [What's actually happening under the hood, and how big the list can get](ideas/custom-vocabulary-in-stt.md) |
+| [Dictation formatting features — built-in model support vs supplementary post-processing](questions/dictation-formatting-built-in-vs-supplementary.md) | [Built-in vs supplementary formatting, across local and cloud models](ideas/dictation-formatting-built-in-vs-supplementary.md) |
+| [Does end-of-utterance batch inference give better accuracy than chunked streaming?](questions/batch-vs-chunked-inference-accuracy.md) | [Batch inference is genuinely more accurate — it's not just frontend engineering](ideas/batch-vs-chunked-inference-accuracy.md) |
 | [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
-| [Leading STT models for live typing — SaaS/API and locally runnable](questions/live-typing-models-saas-and-local.md) | [Leading STT models for live typing — SaaS and local, with architecture commonalities and differences](ideas/live-typing-models-saas-and-local.md) |
-| [Local STT engines with built-in VAD (or equivalent silence-handling architecture)](questions/local-stt-builtin-vad.md) | [Local STT engines and silence handling — built-in VAD, bolted-on VAD, and push-to-talk as an architectural sidestep](ideas/local-stt-builtin-vad.md) |
-| [Local STT inference engines and GPU acceleration (NVIDIA vs AMD)](questions/local-stt-inference-engines-gpu.md) | [Local STT inference engines — GPU acceleration on NVIDIA vs AMD, with an engine × vendor × backend table](ideas/local-stt-inference-engines-gpu.md) |
-| [What is the dynamic-rewriting display in tools like Deepgram called?](questions/partial-transcript-rewriting.md) | [Interim results, stabilization, and where the work happens](ideas/partial-transcript-rewriting.md) |
+| [Hotkey count tradeoffs for voice dictation control (single key, macro pads)](questions/voice-dictation-hotkey-count-tradeoffs.md) | [From single toggle to a four-key macro pad](ideas/voice-dictation-hotkey-count-tradeoffs.md) |
+| [Industries that adopted speech-to-text enthusiastically through recognition of effectiveness](questions/stt-enthusiastic-industry-adoption.md) | [Industries that adopted STT through sheer recognition of effectiveness](ideas/stt-enthusiastic-industry-adoption.md) |
+| [Inference cadence and sentence entry for pause-for-thought dictators](questions/inference-cadence-and-sentence-entry.md) | [Finding the UX sweet spot for pause-for-thought dictators](ideas/inference-cadence-and-sentence-entry.md) |
+| [Leading STT models for live typing — SaaS/API and locally runnable](questions/live-typing-models-saas-and-local.md) | [SaaS and local models, with architecture commonalities and differences](ideas/live-typing-models-saas-and-local.md) |
+| [Local STT engines with built-in VAD (or equivalent silence-handling architecture)](questions/local-stt-builtin-vad.md) | [Built-in VAD, bolted-on VAD, and push-to-talk as an architectural sidestep](ideas/local-stt-builtin-vad.md) |
+| [Local STT inference engines and GPU acceleration (NVIDIA vs AMD)](questions/local-stt-inference-engines-gpu.md) | [GPU acceleration on NVIDIA vs AMD, with an engine × vendor × backend table](ideas/local-stt-inference-engines-gpu.md) |
+| [Pause-tolerant dictation — codify this user profile and recommend an STT stack](questions/pause-tolerant-dictation-profile-and-stack.md) | [The pause-tolerant prompt-dictator — codified profile and matching STT stack](ideas/pause-tolerant-dictation-profile-and-stack.md) |
 | [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
-| [VAD (voice activity detection) for live typing](questions/vad-for-live-typing.md) | [VAD for live typing: what's native, what's bolted on, and how to wire them together](ideas/vad-for-live-typing.md) |
-| [Hotkey count tradeoffs for voice dictation control (single key, macro pads)](questions/voice-dictation-hotkey-count-tradeoffs.md) | [Hotkey count tradeoffs for voice dictation: from single toggle to a four-key macro pad](ideas/voice-dictation-hotkey-count-tradeoffs.md) |
-| [Inference cadence and sentence entry for pause-for-thought dictators](questions/inference-cadence-and-sentence-entry.md) | [Inference cadence and sentence entry — finding the UX sweet spot for pause-for-thought dictators](ideas/inference-cadence-and-sentence-entry.md) |
+| [VAD (voice activity detection) for live typing](questions/vad-for-live-typing.md) | [What's native, what's bolted on, and how to wire them together](ideas/vad-for-live-typing.md) |
+| [What is the dynamic-rewriting display in tools like Deepgram called?](questions/partial-transcript-rewriting.md) | [Interim results, stabilization, and where the work happens](ideas/partial-transcript-rewriting.md) |
+| [When Handy prints the transcript over 10–20 seconds, is that real-time inference or an artificial frontend delay?](questions/handy-inference-vs-typing-delay.md) | [Handy's print delay is almost entirely keystroke-injection pacing, not inference](ideas/handy-inference-vs-typing-delay.md) |
 | [Why Whisper isn't ideal for live dictation, and how live STT models rewrite on the fly](questions/whisper-vs-streaming-asr-for-dictation.md) | [Why Whisper isn't built for live dictation, and how streaming STT models rewrite on the fly](ideas/whisper-vs-streaming-asr-for-dictation.md) |
-| [When Handy prints the transcript over 10–20 seconds, is that real-time inference or an artificial frontend delay?](questions/handy-inference-vs-typing-delay.md) | [Handy's 10–20 second print delay is almost entirely keystroke-injection pacing, not inference](ideas/handy-inference-vs-typing-delay.md) |
-| [Cursor-level dictation vs record-then-paste STT — who loves which, and where](questions/cursor-dictation-vs-clipboard-stt-adoption.md) | [Cursor-level dictation vs record-then-paste STT — adoption patterns across industries, users, and operating systems](ideas/cursor-dictation-vs-clipboard-stt-adoption.md) |
-| [Pause-tolerant dictation — codify this user profile and recommend an STT stack](questions/pause-tolerant-dictation-profile-and-stack.md) | [The pause-tolerant prompt-dictator — a codified user profile and the STT stack that matches it](ideas/pause-tolerant-dictation-profile-and-stack.md) |
-| [Industries that adopted speech-to-text enthusiastically through recognition of its effectiveness](questions/stt-enthusiastic-industry-adoption.md) | [Industries that adopted STT enthusiastically through sheer recognition of effectiveness](ideas/stt-enthusiastic-industry-adoption.md) |
-| [Custom vocabulary in transcription tools — how is it actually implemented?](questions/custom-vocabulary-in-stt.md) | [Custom vocabulary in STT — what's actually happening under the hood, and how big the list can get](ideas/custom-vocabulary-in-stt.md) |
-| [Dictation formatting features — built-in model support vs supplementary post-processing](questions/dictation-formatting-built-in-vs-supplementary.md) | [Dictation formatting features — built-in vs supplementary, across local and cloud models](ideas/dictation-formatting-built-in-vs-supplementary.md) |
 
 ---
 
