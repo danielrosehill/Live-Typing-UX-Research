@@ -51,3 +51,8 @@ Each topic is recorded as **two cross-referenced files**: the user's question (i
 - Cite tools, versions, and OS/distro assumptions explicitly. Stale guides are worse than missing ones.
 - When the answer is uncertain or fast-moving, say so in the guide itself (don't bury caveats in a tool result).
 - This repo is typically **public** on GitHub — never write secrets, API keys, or private hostnames into guides or context.
+
+## Commit & push cadence
+
+- **Do not push after every single output.** Commit locally as outputs are created, but hold off on `git push` until the user explicitly says so.
+- The user will signal when to push — typically after a few outputs have accumulated or at the end of a Q&A session. Wait for that cue.

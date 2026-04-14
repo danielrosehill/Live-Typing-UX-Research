@@ -27,6 +27,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 
 | Question | Ideas |
 |---|---|
+| [Does end-of-utterance batch inference give better accuracy than chunked streaming?](questions/batch-vs-chunked-inference-accuracy.md) | [End-of-utterance batch inference is genuinely more accurate than chunked streaming — it's not just frontend engineering](ideas/batch-vs-chunked-inference-accuracy.md) |
 | [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
 | [What is the dynamic-rewriting display in tools like Deepgram called?](questions/partial-transcript-rewriting.md) | [Interim results, stabilization, and where the work happens](ideas/partial-transcript-rewriting.md) |
 | [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
