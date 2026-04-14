@@ -6,9 +6,9 @@
 
 ## The question
 
-Can we do one on the leading models for the live typing use-case in:
+Leading models for the live typing use-case, in two categories:
 
-1. **SaaS / API access**, and
-2. **Locally runnable**.
+1. **SaaS / API access**
+2. **Locally runnable**
 
 For (2) include Moonshine and NVIDIA Parakeet (etc). Check what [Handy](https://github.com/cjpais/Handy) offers for a list. Note some commonalities and points of difference in architecture.

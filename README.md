@@ -35,6 +35,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 | [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
 | [VAD (voice activity detection) for live typing](questions/vad-for-live-typing.md) | [VAD for live typing: what's native, what's bolted on, and how to wire them together](ideas/vad-for-live-typing.md) |
 | [Hotkey count tradeoffs for voice dictation control (single key, macro pads)](questions/voice-dictation-hotkey-count-tradeoffs.md) | [Hotkey count tradeoffs for voice dictation: from single toggle to a four-key macro pad](ideas/voice-dictation-hotkey-count-tradeoffs.md) |
+| [Inference cadence and sentence entry for pause-for-thought dictators](questions/inference-cadence-and-sentence-entry.md) | [Inference cadence and sentence entry — finding the UX sweet spot for pause-for-thought dictators](ideas/inference-cadence-and-sentence-entry.md) |
 | [Why Whisper isn't ideal for live dictation, and how live STT models rewrite on the fly](questions/whisper-vs-streaming-asr-for-dictation.md) | [Why Whisper isn't built for live dictation, and how streaming STT models rewrite on the fly](ideas/whisper-vs-streaming-asr-for-dictation.md) |
 
 ---
