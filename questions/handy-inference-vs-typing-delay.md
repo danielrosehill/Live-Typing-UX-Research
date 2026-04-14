@@ -15,3 +15,7 @@ Is that delay artificial — created by the way the frontend chooses to print wo
 - [`batch-vs-chunked-inference-accuracy`](batch-vs-chunked-inference-accuracy.md) — the accuracy side of batch-on-stop inference.
 - [`streaming-vs-batch-injection`](streaming-vs-batch-injection.md) — separates the recognition-mode axis from the injection-mode axis.
 - [`inference-cadence-and-sentence-entry`](inference-cadence-and-sentence-entry.md) — the three intervals that govern how live-feeling dictation feels.
+
+## Follow-up questions
+
+- 14/04/26 — What is "set clipboard, auto-fire Ctrl+V, done" called, and how is it implemented on Wayland with tools like ydotool?

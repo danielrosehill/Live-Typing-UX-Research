@@ -162,3 +162,94 @@ If you want to actually watch words appear as they are transcribed (not as they 
 - The 5–30 ms/char range is typical of `uinput`-style keystroke synthesis; some builds use shorter delays with batching or longer delays for reliability. If Handy exposes a config key for injection speed, its value is the definitive answer.
 - On X11 (not Wayland), XTest-based injection can be much faster (sub-millisecond per keystroke) because events go straight to the X server rather than through `uinput`. If you run Handy under Xwayland or an X11 session, the pacing math above changes.
 - "Inference in 1–3 s" assumes a GPU backend. CPU-only whisper.cpp on Whisper-medium/large can reach inference times that genuinely contribute 5–15 s to the observed delay.
+
+## Follow-up — 2026-04-14: one-shot automatic injection on Wayland
+
+**Question:** ydotool paced typing feels like the worst of both worlds — you don't get live streaming, and you still wait through a fake typing animation. Manual paste isn't acceptable either. What is "set the clipboard, fire Ctrl+V automatically, done" called, and how do you implement it on Wayland?
+
+### Names for the pattern
+
+There isn't one universal term; these are the ones used interchangeably in dictation tooling:
+
+- **Paste-based injection** / **paste injection** — most common name in open-source STT tools.
+- **Clipboard injection** / **clipboard paste** — same thing, viewed from the clipboard side.
+- **Auto-paste** / **programmatic paste** — user-facing label (often a config toggle: `use_paste = true`, `fast_mode`, `instant_mode`).
+- **Bulk injection** — generic term contrasting with keystroke-by-keystroke synthesis.
+- **Commit-string injection** — specifically the IME route (next section); distinct from clipboard paste because it doesn't touch the clipboard at all.
+
+If you grep a dictation tool's source or config for any of these terms, you're looking at the same mechanism.
+
+### Two real mechanisms on Wayland
+
+**(1) Clipboard + synthetic Ctrl+V — the ubiquitous path.**
+
+This is what almost every "fast mode" dictation tool actually does. Three steps:
+
+```bash
+# 1. Put the transcript on the clipboard
+wl-copy "<transcript>"
+
+# 2. Synthesise Ctrl+V into the focused window
+ydotool key 29:1 47:1 47:0 29:0   # LCTRL down, V down, V up, LCTRL up
+#   or, with key names: ydotool key ctrl+v
+
+# 3. (Optional) Restore previous clipboard contents after a short delay
+```
+
+You already have `ydotool` installed — add `wl-clipboard` (`sudo apt install wl-clipboard`) and you have all the pieces. Total injection time: ~10–50 ms regardless of transcript length.
+
+Gotchas that make this "not quite free":
+
+- **Clipboard pollution.** The user's previous clipboard contents get overwritten. Robust tools save the prior clipboard with `wl-paste`, then restore it ~200 ms after pasting.
+- **Primary vs clipboard selection.** Wayland, like X11, distinguishes the clipboard (`Ctrl+V`) from the primary selection (middle-click). `wl-copy -p` sets the primary; bare `wl-copy` sets the clipboard. Use the clipboard; it's what Ctrl+V consumes.
+- **Terminals and bracketed paste.** Terminals that enable bracketed paste mode will wrap the injected text in `ESC[200~…ESC[201~`, which is usually desired (suppresses control-character interpretation). Some terminals or shells with bracketed paste disabled will interpret newlines and tabs in the transcript as input.
+- **Apps that block programmatic Ctrl+V.** Rare on Linux, but some Electron/web apps listen for the `paste` event's `isTrusted` flag and reject synthetic events. Fallback is per-app.
+- **ydotool daemon must be running.** `ydotoold` needs to be a running service with your user in the `input` group (or it needs `uinput` access). If `ydotool key ctrl+v` is silent, check `systemctl --user status ydotoold`.
+- **Non-latin / mixed-script content.** The clipboard carries a UTF-8 string — no keycode mapping needed, no layout issues, no dead-key composition problems. This is a real advantage over keystroke synthesis: emoji, Hebrew, accented characters all Just Work.
+- **Focus race.** If focus moves between the `wl-copy` call and the `ydotool` Ctrl+V, the paste lands in the wrong window. Same risk as paced typing, but now a single-shot mistake instead of a partial one. See [`focus-loss-during-dictation`](focus-loss-during-dictation.md).
+
+**(2) IME commit-string via Fcitx / IBus — the "proper" way, rarely implemented.**
+
+Wayland's native mechanism for an external process to put text into a focused editor is the input-method / text-input protocol pair (`zwp_input_method_v2` ↔ `zwp_text_input_v3`). An IME calls `commit_string`, and the app receives the text as a single atomic input event — no keystrokes, no clipboard.
+
+- **Pros:** no clipboard pollution; no paste-event quirks; works in any text-input-v3-aware app regardless of key-layout; indistinguishable from a real IME like Fcitx typing Japanese.
+- **Cons:** you have to implement (or piggyback on) Fcitx5 or IBus as an IME addon. Some apps still don't implement `zwp_text_input_v3` correctly — GTK4 and Qt6 do; Electron is patchy; terminals vary.
+- **In practice:** almost no open-source dictation tool for the Linux desktop ships an IME backend. The path of least resistance has been clipboard-paste, and it's "good enough" for most users.
+
+You can prototype the IME route by writing a small Fcitx5 addon that receives a transcript over a Unix socket and calls `commit_string`, but it's a weekend project and you get roughly the same user-visible result as wl-copy+Ctrl+V with fewer quirks.
+
+### What to look for in Handy
+
+Based on the pattern every similar tool follows, look for one of these in Handy's config (usually `~/.config/handy/config.toml` or similar):
+
+- `output_mode`, `injection_mode`, `typing_mode` — a string/enum with values like `"type"` / `"paste"` / `"clipboard"`.
+- A boolean like `use_paste` / `paste_on_commit` / `fast_mode` / `instant_inject`.
+- A per-character delay (`type_delay_ms`, `keystroke_delay_ms`) — if present and there's no paste mode yet, dropping it to 1–2 ms gives you near-instant typing at the risk of dropped events.
+
+If none of those exist, Handy hasn't exposed the choice and a small patch (set clipboard → send Ctrl+V → restore clipboard) is the minimum viable change. Filing it as a feature request is reasonable; most Linux-facing STT tools have landed this feature under a name like "paste mode" after enough users asked.
+
+### Tools that already ship this
+
+For reference — these all implement some variant of auto-paste as the default or an option:
+
+- **nerd-dictation** (Blender-author's tool) — `--output SIMULATE_INPUT_TYPE=PASTE` uses the clipboard path.
+- **Whispering** (open-source) — "Paste mode" toggle.
+- **Talon Voice** — output strategies include clipboard paste.
+- **Dragon for Linux** (there isn't one, but on macOS, all modern STT tools default to paste).
+- **Vibe** / **Whisper-keyboard** / many GNOME extensions — clipboard paste is the near-universal default for batch-mode tools.
+
+### Recommendation
+
+For your stack (Ubuntu 25.10, KDE Wayland, ydotool already present): the one-line answer is **"paste-based injection via `wl-copy` + synthesised Ctrl+V"**, and you can validate the UX immediately with a shell pipeline before touching Handy's source:
+
+```bash
+# Swap Handy's typing call for this, in spirit:
+TEXT="<whatever Handy just transcribed>"
+OLD_CLIP="$(wl-paste 2>/dev/null)" || OLD_CLIP=""
+printf '%s' "$TEXT" | wl-copy
+ydotool key ctrl+v
+sleep 0.3
+printf '%s' "$OLD_CLIP" | wl-copy
+```
+
+That's the whole pattern. When someone says "paste mode" / "fast mode" / "instant injection" in the dictation-tool ecosystem, this is what they mean. The IME-commit route is the same outcome through a cleaner protocol, but it's not something you wire up in an afternoon.
