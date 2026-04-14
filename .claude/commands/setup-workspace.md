@@ -26,17 +26,19 @@ In both `CLAUDE.md` and `README.md`, replace:
 
 Create `context/stack.md` with the user's stack/domain answer. Add a short note at the top:
 
-> This file is read by every command. Keep it accurate — outdated context produces outdated guides.
+> This file is read by every command. Keep it accurate — outdated context produces outdated ideas.
 
-### 4. Initialise the guide index
+### 4. Initialise the topics index
 
-Append a "Guides" section to the top-level `README.md`:
+Ensure the top-level `README.md` contains a "Topics" section. If empty, leave the placeholder in place:
 
 ```markdown
-## Guides
+## Topics
 
-_No guides yet — run `/ask` to add one._
+_No topics yet — run `/ask` to add one._
 ```
+
+`/publish` will rebuild this section into a two-column table once topics exist.
 
 ### 5. Commit
 

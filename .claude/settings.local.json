@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/ask.md /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/followup.md /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/publish.md /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/revise.md /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/setup-workspace.md /home/daniel/repos/github/my-repos/Live-Typing-UX-Research/.claude/commands/)",
+      "Bash(mkdir -p /home/daniel/repos/github/my-repos/Live-Typing-UX-Research/.claude/agents)",
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/agents/guide-writer.md /home/daniel/repos/github/my-repos/Live-Typing-UX-Research/.claude/agents/)",
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/outputs/_template.typ /home/daniel/repos/github/my-repos/Live-Typing-UX-Research/outputs/_template.typ)",
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/outputs/_template.typ /home/daniel/repos/github/my-repos/New-Repo-From-Template-Plugin/templates/research/technical-research/outputs/_template.typ)",
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/consolidate.md /home/daniel/repos/github/my-repos/New-Repo-From-Template-Plugin/templates/research/technical-research/.claude/commands/consolidate.md)",
+      "Bash(cp /home/daniel/repos/github/my-repos/Claude-Technical-Research-Template/.claude/commands/consolidate.md /home/daniel/repos/github/my-repos/Live-Typing-UX-Research/.claude/commands/consolidate.md)",
+      "Bash(typst compile:*)"
+    ]
+  }
+}
