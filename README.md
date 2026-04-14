@@ -30,6 +30,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 | [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
 | [What is the dynamic-rewriting display in tools like Deepgram called?](questions/partial-transcript-rewriting.md) | [Interim results, stabilization, and where the work happens](ideas/partial-transcript-rewriting.md) |
 | [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
+| [Hotkey count tradeoffs for voice dictation control (single key, macro pads)](questions/voice-dictation-hotkey-count-tradeoffs.md) | [Hotkey count tradeoffs for voice dictation: from single toggle to a four-key macro pad](ideas/voice-dictation-hotkey-count-tradeoffs.md) |
 | [Why Whisper isn't ideal for live dictation, and how live STT models rewrite on the fly](questions/whisper-vs-streaming-asr-for-dictation.md) | [Why Whisper isn't built for live dictation, and how streaming STT models rewrite on the fly](ideas/whisper-vs-streaming-asr-for-dictation.md) |
 
 ---
