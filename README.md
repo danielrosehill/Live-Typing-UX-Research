@@ -10,13 +10,20 @@ This repo catalogues:
 - **Friction points** observed while prototyping — false commits, lost partials, focus loss, punctuation/formatting gaps, correction workflows, modal vs. modeless overlays.
 - **A working spec for an "ideal" desktop live-typing UI**, derived from the patterns above and prototypes built along the way, refined as the research evolves.
 
-Each topic lives as its own guide under `guides/<slug>/`, revised over time rather than rewritten.
+Each topic is recorded as a pair of cross-referenced files:
+
+- `questions/<slug>.md` — the question as posed, kept short and faithful to how it was asked.
+- `ideas/<slug>.md` — the exploratory response: patterns, tradeoffs, recommendations, references.
+
+The two halves link to each other. This keeps the user's framing and the AI's analysis legible as separate artefacts rather than fused into one document.
 
 ---
 
-## Guides
+## Topics
 
-- [Handling focus loss between dictation start and transcript arrival](guides/focus-loss-during-dictation/README.md) — patterns for when the user moves focus away while waiting for the transcript: clipboard fallback, target-window capture with deferred inject, anchored overlay, and what's actually implementable on Wayland.
+| Question | Ideas |
+|---|---|
+| [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
 
 ---
 
@@ -52,9 +59,10 @@ That replaces placeholders, seeds `context/`, and asks for a one-line descriptio
 ## Layout
 
 ```
-context/   — Stack, environment, constraints (read by every command)
-guides/    — One folder per guide; each contains README.md + optional followups/, revisions/
-outputs/   — Loose drafts before they become a guide
+context/    — Stack, environment, constraints (read by every command)
+questions/  — One file per question, <slug>.md, kept faithful to how it was posed
+ideas/      — One file per response, <slug>.md, cross-referenced to its question
+outputs/    — Loose drafts before promotion to a question/ideas pair
 ```
 
 ## Visibility

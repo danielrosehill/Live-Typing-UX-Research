@@ -1,6 +1,7 @@
 # Handling focus loss between dictation start and transcript arrival
 
-**Asked:** 14/04/26
+**Question:** [`questions/focus-loss-during-dictation.md`](../questions/focus-loss-during-dictation.md)
+**Written:** 14/04/26
 **Stack:** Desktop live voice typing (real-time speech-to-text injecting into the focused window). Author's primary target is Ubuntu 25.10 / KDE Plasma / Wayland, but the patterns generalise to X11, macOS, and Windows.
 
 ## TL;DR

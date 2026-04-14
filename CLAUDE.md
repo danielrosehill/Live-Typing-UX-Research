@@ -12,37 +12,37 @@ The work here catalogues:
 - **Friction points** observed while prototyping — false commits, lost partials, focus loss, punctuation/formatting gaps, correction workflows, modal vs. modeless overlays.
 - **A working spec for an "ideal" desktop live-typing UI**, derived from the patterns above and Daniel's own prototypes, refined as the research evolves.
 
-This is a **technical research workspace** — a place to ask Claude (or any AI agent) "how do I do X?" or "what's the best way to approach Y?" and capture the answer as a **living, maintainable guide**.
+This is a **technical research workspace** — a place to ask Claude (or any AI agent) "how do I do X?" or "what's the best way to approach Y?" and capture the conversation as a **living, maintainable reference**.
 
-Think of it as a private/public GitHub Gist that grew up: it can hold multiple guides, each of which can be revised, extended with follow-up Q&A, and published as a coherent reference over time.
+Each topic is recorded as **two cross-referenced files**: the user's question (in `questions/`) and the AI's response/ideas (in `ideas/`). They share a slug and link to each other. This keeps the framing and the analysis legible as separate artefacts rather than fused into one document.
 
 ## Folder structure
 
 ```
 .
-├── context/    # Background on the user's stack, constraints, goals
-├── guides/    # Each guide lives in its own folder (one topic per folder)
-│              #   guides/<slug>/README.md            — the canonical guide
-│              #   guides/<slug>/followups/           — appended Q&A
-│              #   guides/<slug>/revisions/           — dated snapshots if needed
-└── outputs/   # Loose drafts, exploratory answers, before promotion to a guide
+├── context/     # Background on the user's stack, constraints, goals
+├── questions/   # One file per question — <slug>.md — faithful to how it was posed
+├── ideas/       # One file per response — <slug>.md — cross-referenced to its question
+└── outputs/     # Loose drafts before promotion to a question/ideas pair
 ```
 
 ## Conventions
 
-- One guide = one folder under `guides/<kebab-slug>/`.
-- Top-level `README.md` in this repo is an **index** of all guides — keep it in sync when guides are added or renamed.
-- Inside each guide folder, `README.md` is the canonical answer. Follow-ups go to `followups/YYYY-MM-DD-short-topic.md`.
+- **One topic = one matched pair**: `questions/<kebab-slug>.md` + `ideas/<kebab-slug>.md`. The slug is identical on both sides.
+- The **question** file is short — restate the user's question as clearly as possible without paraphrasing it into a different question. Include a link to the corresponding `ideas/<slug>.md`.
+- The **ideas** file is the long-form response: patterns, tradeoffs, recommendations, references. It links back to `questions/<slug>.md` in its header.
+- Top-level `README.md` is an **index table** with one row per topic, linking the question and the ideas side by side. Keep it in sync when topics are added or renamed.
 - Use absolute dates (DD/MM/YY in prose, ISO `YYYY-MM-DD` in filenames).
-- When a guide is substantially rewritten, snapshot the previous version into `revisions/YYYY-MM-DD.md` before overwriting.
+- **Follow-ups**: append to the existing `ideas/<slug>.md` under a dated `## Follow-up — YYYY-MM-DD` section, and add a short note in `questions/<slug>.md` if a new sub-question prompted it.
+- When the ideas file is substantially rewritten, snapshot the previous version into `ideas/<slug>.revisions/YYYY-MM-DD.md` before overwriting.
 
 ## Available commands
 
 - `/setup-workspace` — first-run setup; replaces placeholders in this file and seeds `context/`.
-- `/ask` — capture a new technical question and produce a structured guide under `guides/`.
-- `/revise` — pick an existing guide and update it with new information.
-- `/followup` — append a follow-up Q&A to an existing guide without rewriting it.
-- `/publish` — refresh the top-level `README.md` index of all guides and report the public URL.
+- `/ask` — capture a new question into `questions/<slug>.md` and write the response into `ideas/<slug>.md`, cross-referenced.
+- `/revise` — update the response in `ideas/<slug>.md` with new information (snapshot the previous version first).
+- `/followup` — append a dated follow-up section to `ideas/<slug>.md` without rewriting it.
+- `/publish` — refresh the top-level `README.md` index table and report the public URL.
 
 ## Behavioural notes
 
