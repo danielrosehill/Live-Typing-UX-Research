@@ -41,6 +41,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 | [When Handy prints the transcript over 10–20 seconds, is that real-time inference or an artificial frontend delay?](questions/handy-inference-vs-typing-delay.md) | [Handy's 10–20 second print delay is almost entirely keystroke-injection pacing, not inference](ideas/handy-inference-vs-typing-delay.md) |
 | [Cursor-level dictation vs record-then-paste STT — who loves which, and where](questions/cursor-dictation-vs-clipboard-stt-adoption.md) | [Cursor-level dictation vs record-then-paste STT — adoption patterns across industries, users, and operating systems](ideas/cursor-dictation-vs-clipboard-stt-adoption.md) |
 | [Pause-tolerant dictation — codify this user profile and recommend an STT stack](questions/pause-tolerant-dictation-profile-and-stack.md) | [The pause-tolerant prompt-dictator — a codified user profile and the STT stack that matches it](ideas/pause-tolerant-dictation-profile-and-stack.md) |
+| [Industries that adopted speech-to-text enthusiastically through recognition of its effectiveness](questions/stt-enthusiastic-industry-adoption.md) | [Industries that adopted STT enthusiastically through sheer recognition of effectiveness](ideas/stt-enthusiastic-industry-adoption.md) |
 
 ---
 
