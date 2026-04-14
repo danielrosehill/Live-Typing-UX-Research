@@ -27,6 +27,8 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 
 ### Batch 1 (14/04/26)
 
+Consolidated PDF: [`outputs/2026-04-14-all.pdf`](outputs/2026-04-14-all.pdf)
+
 | Prompt | Output |
 |---|---|
 | [Cursor-level dictation vs record-then-paste STT — who loves which, and where](questions/cursor-dictation-vs-clipboard-stt-adoption.md) | [Adoption patterns across industries, users, and operating systems](ideas/cursor-dictation-vs-clipboard-stt-adoption.md) |
