@@ -29,6 +29,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 |---|---|
 | [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
 | [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
+| [Why Whisper isn't ideal for live dictation, and how live STT models rewrite on the fly](questions/whisper-vs-streaming-asr-for-dictation.md) | [Why Whisper isn't built for live dictation, and how streaming STT models rewrite on the fly](ideas/whisper-vs-streaming-asr-for-dictation.md) |
 
 ---
 
