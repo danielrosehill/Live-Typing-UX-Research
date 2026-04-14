@@ -24,6 +24,7 @@ The two halves link to each other. This keeps the user's framing and the AI's an
 | Question | Ideas |
 |---|---|
 | [Focus loss during dictation](questions/focus-loss-during-dictation.md) | [Handling focus loss between dictation start and transcript arrival](ideas/focus-loss-during-dictation.md) |
+| [Streaming injection vs batch transcription on stop](questions/streaming-vs-batch-injection.md) | [Streaming injection vs utterance-final injection in live dictation](ideas/streaming-vs-batch-injection.md) |
 
 ---
 
