@@ -186,3 +186,85 @@ Heaviest, most brittle, but also the most customisable. Only worth it if you hav
 - **Paragraph breaks** are almost always the frontend's job, even when the API says it supports them. A silence-gap timer in the VAD layer produces better results than blind reliance on a cloud provider's `paragraphs` output, because *you* know what pause length means "new paragraph" for *your* user.
 
 The surprising result from surveying these is how little the built-in coverage varies among engines aimed at dictation specifically (Deepgram, AssemblyAI, Soniox): they all cover the four requirements. The gap is between dictation-optimised products and general-purpose ASR APIs (Whisper, Google, AWS) that produce high-quality transcripts but expect you to assemble the formatting layer yourself.
+
+## Follow-up — 2026-04-14
+
+### Why paragraph break detection is the least implemented of the four
+
+**Short answer:** it's not a frontend-vs-backend split so much as a **problem-definition** split. Sentence boundaries, punctuation, and filler removal all have **objective training targets** — there's a correct answer you can label in a dataset. Paragraph breaks don't. What counts as a paragraph is a stylistic and domain-specific judgment, and models don't learn it reliably because there's no consistent supervision signal to learn from.
+
+Pulling that apart into the actual technical reasons:
+
+#### 1. No canonical ground truth in training data
+
+The three "solved" features come with abundant labelled data:
+
+- **Sentence boundaries / punctuation** — every piece of written text in the training corpus is a label. Books, Wikipedia, news, forum posts — they all have terminal punctuation and sentence structure already baked in. The model learns PnC essentially for free from the web-scale text side of its training pairs.
+- **Filler removal** — labelled disfluency corpora exist (Switchboard, Fisher, plus modern conversational datasets like AMI and ICSI) with explicit `[DISFLUENCY]` / `[FILLED_PAUSE]` / `[PARTIAL]` tags annotated by humans. Small, but consistent enough to train on.
+- **Paragraph breaks** — the label is *author intent about visual formatting*. The same spoken passage could legitimately be one paragraph or three depending on genre (blog post vs chat message vs legal brief), on the author's personal style, and on the rendering surface (Twitter vs a Word document). You cannot collect a corpus where annotators agree on where paragraph breaks "should" go with anything like the agreement you'd get for sentence endings.
+
+Models don't learn well from inconsistent labels. So the feature gets left out of the training objective, and it shows up as a gap at inference time.
+
+#### 2. The acoustic signal for paragraphs is weak
+
+Pauses, intonation resets, and breath noise all correlate with paragraph breaks, but none are reliable:
+
+- A 3-second pause can be "thinking about the next sentence" or "starting a new paragraph" or "phone notification distracted me" — same audio, different intent.
+- Prosodic paragraph-ending cues (pitch reset, final lowering) exist in careful read speech but are largely absent in spontaneous dictation.
+- Speakers often don't signal paragraph intent at all — they just produce a long run of connected sentences and decide visually later, when they see the text.
+
+So even if you wanted a model to predict paragraph breaks acoustically, the signal is noisy enough that a simple silence threshold performs as well as a learned predictor, with none of the training cost.
+
+#### 3. Paragraphs are a rendering-surface concept, not a text concept
+
+A paragraph is "a chunk of text separated from other chunks by whitespace". That definition only makes sense relative to a rendering layer. Streaming ASR emits a token stream — it has no concept of a rendered surface.
+
+Compare:
+
+- Sentences end in `.` — the punctuation is *in the text itself*, unambiguous across surfaces.
+- Paragraphs end with a newline — but `\n\n` means "new paragraph" in Markdown, `<p>` in HTML, a new `<p:Paragraph>` run in a Word document, pressing **Enter twice** in a plain textbox. In some contexts (terminal prompts, single-line chat inputs) a newline means *submit*, not "new paragraph".
+
+An ASR pipeline that doesn't know where its output is going has no principled way to emit the right break character. Most pipelines solve this by leaving paragraph breaks entirely to whatever owns the cursor — i.e. the frontend, which does know.
+
+This is the kernel of truth in the "is it just a frontend thing?" intuition. Strictly, paragraph emission requires a **two-line handoff**:
+
+1. The ASR or VAD layer tags "long silence here" (timestamp + duration).
+2. The frontend decides what that means in the current context — `\n\n`, two Enter presses, a new message, nothing at all.
+
+Step 2 genuinely has to be at the frontend because only the frontend knows what app has focus.
+
+#### 4. The live-streaming constraint
+
+Paragraph break detection is least harmful as a *retrospective* decision — you can look at the whole transcript and decide where paragraphs go. But live dictation is irrevocably *prefix-only*: once you've emitted text, you can't go back and restructure it without a visible jump. So the model would have to decide "new paragraph starts here" in a single forward pass, with only the audio up to that point, and commit to the decision before knowing what comes next.
+
+Contrast with punctuation: a streaming model can emit a period with reasonable confidence from a falling intonation and a short pause, because the downside of a wrong period is small (one mis-punctuated sentence). A wrong paragraph break is more jarring — a large visual artefact in the middle of what should be connected prose.
+
+So even engines that *could* emit paragraph breaks live tend not to, because the cost of false positives is high and the user can add a break manually with one keystroke.
+
+#### 5. Users already have a mechanism
+
+For sentence-level punctuation, the "manual" alternative (typing a period) is laborious and slow. Automation pays off.
+
+For paragraph breaks, the manual alternative (press Enter twice, or say "new paragraph" as a command) is fast and reliable. Several dictation products — Dragon NaturallySpeaking historically, and Wispr Flow more recently — let the user say `"new paragraph"` or `"new line"` as an explicit command. That sidesteps the detection problem entirely, costs almost nothing in UX, and is more predictable than any automatic detector.
+
+When an explicit user command gives you 100% accuracy for one spoken phrase per paragraph, the incentive to build a detection model collapses.
+
+### So: frontend thing, or deeper?
+
+Both, but in a specific order:
+
+- It's **deeper than a frontend quirk** — there are real training-data, signal-quality, and commit-latency reasons no one ships great automatic paragraph detection.
+- And it's **also a frontend thing** — because the rendering surface genuinely has to decide what break character to emit, a frontend step is unavoidable even when the ASR does signal silence gaps.
+
+The typical production pattern, across every dictation tool that handles paragraphs at all:
+
+```
+ASR / VAD → "pause of N ms at timestamp T" → frontend rule:
+  if N > 2500ms  → emit \n\n  (or the surface-appropriate break)
+  else if N > 800ms → emit \n    (soft break, rare)
+  else            → no break
+```
+
+Plus an explicit voice command `"new paragraph"` as an override. That's it. The entire feature lives in ~20 lines of frontend code, which is why no backend model vendor bothers to own it properly.
+
+The honest rephrasing of your observation: paragraph break detection is "the least implemented" because it's **the one feature where a trivial frontend heuristic works as well as anything a model could realistically learn**, and the rendering-surface dependency means it has to live on the frontend anyway. So the model vendors skip it and leave it to whoever owns the cursor.

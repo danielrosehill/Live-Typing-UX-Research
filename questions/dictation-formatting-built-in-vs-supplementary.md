@@ -16,3 +16,7 @@ The core requirements to cover:
 4. **Paragraph breaks** — inserting paragraph separators based on pause length or topic shift.
 
 For each: which engines do it natively, which don't, and what the standard drop-in supplementary models are.
+
+## Follow-up — 2026-04-14
+
+Paragraph break detection seems to be the least implemented of the four formatting features across both cloud and local models. Is there a technical reason for this, or is it purely a frontend responsibility (emulating a blank line)?
