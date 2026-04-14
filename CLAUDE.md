@@ -29,7 +29,12 @@ Each topic is recorded as **two cross-referenced files**: the user's question (i
 ## Conventions
 
 - **One topic = one matched pair**: `questions/<kebab-slug>.md` + `ideas/<kebab-slug>.md`. The slug is identical on both sides.
-- The **question** file is short — restate the user's question as clearly as possible without paraphrasing it into a different question. Include a link to the corresponding `ideas/<slug>.md`.
+- The **question** file is short — **reframe** the user's question into a clean, declarative prompt. Strip colloquial lead-ins ("can we…", "I was wondering if you could…", "could you maybe…", "let's…") and rewrite in the imperative or as a direct question. Keep the *substance* and scope of what was asked — do not narrow or broaden it — but drop the conversational framing. Examples:
+  - "Can we research the best-loved cursor dictation tools…" → "Research the best-loved cursor dictation tools…"
+  - "I was wondering how Whisper compares to streaming ASR" → "How does Whisper compare to streaming ASR for live dictation?"
+  - "Could you maybe look into VAD options" → "Evaluate VAD options for live typing."
+- Voice-typing artefacts (homophones, missing punctuation, run-on phrasing) should be silently cleaned up in the reframed question — do not preserve transcription noise.
+- Include a link to the corresponding `ideas/<slug>.md`.
 - The **ideas** file is the long-form response: patterns, tradeoffs, recommendations, references. It links back to `questions/<slug>.md` in its header.
 - Top-level `README.md` is an **index table** with one row per topic, linking the question and the ideas side by side. Keep it in sync when topics are added or renamed.
 - Use absolute dates (DD/MM/YY in prose, ISO `YYYY-MM-DD` in filenames).
