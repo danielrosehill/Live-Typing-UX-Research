@@ -1,8 +1,16 @@
-# CLAUDE.md — {{PROJECT_NAME}}
+# CLAUDE.md — Live Typing UX Research
 
 ## Purpose
 
-{{DESCRIPTION}}
+A research workspace for documenting the UX challenges of using **live voice typing as a replacement for keyboard input on the desktop**.
+
+The scope is desktop-specific — not mobile dictation, not transcription-after-the-fact, but real-time speech-to-text that feeds a cursor in arbitrary applications (editors, chat boxes, terminals, address bars).
+
+The work here catalogues:
+
+- **Interaction patterns** in current live-typing tools — their names (push-to-talk, hands-free / VAD-gated, hold-to-dictate, toggle-dictation, streaming overlay, commit-on-pause, etc.), how they behave from the user's perspective, and how they work under the hood (streaming ASR vs. chunked, endpointing, partial vs. final tokens, injection method into the focused window).
+- **Friction points** observed while prototyping — false commits, lost partials, focus loss, punctuation/formatting gaps, correction workflows, modal vs. modeless overlays.
+- **A working spec for an "ideal" desktop live-typing UI**, derived from the patterns above and Daniel's own prototypes, refined as the research evolves.
 
 This is a **technical research workspace** — a place to ask Claude (or any AI agent) "how do I do X?" or "what's the best way to approach Y?" and capture the answer as a **living, maintainable guide**.
 
