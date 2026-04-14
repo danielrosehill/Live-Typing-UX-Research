@@ -19,3 +19,4 @@ Is that delay artificial — created by the way the frontend chooses to print wo
 ## Follow-up questions
 
 - 14/04/26 — What is "set clipboard, auto-fire Ctrl+V, done" called, and how is it implemented on Wayland with tools like ydotool?
+- 14/04/26 — In Handy's "Paste Method" dropdown, does "paste" mean automatic injection or does it require manual Ctrl+V?

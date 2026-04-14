@@ -253,3 +253,37 @@ printf '%s' "$OLD_CLIP" | wl-copy
 ```
 
 That's the whole pattern. When someone says "paste mode" / "fast mode" / "instant injection" in the dictation-tool ecosystem, this is what they mean. The IME-commit route is the same outcome through a cleaner protocol, but it's not something you wire up in an afternoon.
+
+## Follow-up — 2026-04-14: Handy's "Paste Method" setting, decoded
+
+**Question:** In Handy's settings there's a "Paste Method" dropdown with options *Direct*, *Clipboard (Ctrl+V)*, *Clipboard (Ctrl+Shift+V)*, *Clipboard (Shift+Insert)*, *None*, *External Script*. Does "paste" here mean automatic injection, or does it require the user to press Ctrl+V manually?
+
+Handy's "Paste Method" is the **umbrella name for the output stage**, not a setting specifically about manual pasting. Mildly confusing naming — "Output Method" would have been clearer. Per the [official docs](https://handy.computer/docs/paste-methods), only **one** of the six options requires user intervention:
+
+| Option | Mechanism | Automatic? |
+|---|---|---|
+| **Clipboard (Ctrl+V)** | Sets clipboard, then synthesises Ctrl+V. Default on macOS and Windows. | Yes |
+| **Clipboard (Ctrl+Shift+V)** | Same, with Ctrl+Shift+V — for apps that intercept plain Ctrl+V. | Yes |
+| **Clipboard (Shift+Insert)** | Same, with Shift+Insert — recommended for Windows Terminal / PowerShell. | Yes |
+| **Direct** | Types character-by-character with no clipboard. This is the paced-typing path described in the main response. Caveat: doesn't respect non-US keyboard layouts (AZERTY, QWERTZ garble). | Yes, but paced |
+| **None** | Copies to clipboard only; user hits Ctrl+V themselves. | **No — manual** |
+| **External Script** (Linux only) | Runs a user-provided script; transcript passed on stdin. | Custom |
+
+Two companion settings matter on Linux:
+
+- **Typing Tool**: picks the backend used to *simulate the paste keystroke* for clipboard-based methods — `wtype`, `kwtype`, `dotool`, `ydotool`, `xdotool`, or `Auto`. Only relevant when Paste Method is one of the Clipboard variants or Direct.
+- **Clipboard Handling**: `Don't Modify Clipboard` (saves and restores prior clipboard contents) vs `Copy to Clipboard` (leaves the transcript on the clipboard for reuse).
+
+### Applied recommendation for Daniel's stack (Ubuntu 25.10 / KDE / Wayland)
+
+1. **Paste Method** → `Clipboard (Ctrl+V)`. This is the auto-paste pattern from earlier in this note — one-shot, layout-safe, instant regardless of transcript length.
+2. **Typing Tool** → `ydotool` (explicit) or `Auto`. `wtype` also works on wlroots but KDE/Kwin support for `wtype` has historically been patchy; `ydotool` via its daemon is the reliable path.
+3. **Clipboard Handling** → `Don't Modify Clipboard` if you rely on clipboard managers or multi-item clipboards; `Copy to Clipboard` if you want the transcript to persist for re-paste.
+4. Leave `Direct` aside — it's the slow one, and on a non-US layout it would also garble characters.
+
+### Observed issues worth flagging
+
+- [`cjpais/Handy#692`](https://github.com/cjpais/Handy/issues/692): `Direct` mode repeats/breaks text in terminals when dictating into Claude Code / Codex. Switching to any Clipboard variant fixes it — further evidence that Direct's per-character keystroke synthesis fights terminals' input handling.
+- [`cjpais/Handy#439`](https://github.com/cjpais/Handy/issues/439): `Direct` doesn't respect non-US keyboard layouts.
+
+Both arguments for preferring a Clipboard paste method on Linux regardless of the latency framing.
